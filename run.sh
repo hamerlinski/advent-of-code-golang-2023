@@ -39,7 +39,7 @@ if [ -z "$YEAR" ] || [ -z "$DAY" ]; then
     exit 1
 fi
 # pad DAY to 2 digits
-DAY=$(printf "%02d" $DAY)
+DAY=$(printf "%02d" "$DAY")
 DIR="./$YEAR/$DAY"
 # create missing files as needed
 if [ ! -d "$DIR" ]; then
@@ -50,5 +50,12 @@ if [ ! -f "$DIR/code.go" ]; then
     template >"$DIR/code.go"
     echo "[run.sh] created $DIR/code.go"
 fi
+
+if test -f ".env"
+then
+source .env
+export AOC_SESSION="$AOC_SESSION"
+fi
+
 # go run
 cd "$DIR" && go run code.go
